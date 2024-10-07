@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full-Width Video Lineup</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden; 
+            position: relative;
+        }
+        .video-container {
+            display: flex;
+            width: 100vw;
+            gap: 0;
+        }
+        video {
+            width: 25vw; 
+            height: auto;
+            border: none; 
+            outline: none; 
+        }
+        .about-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 2px solid white;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            z-index: 10; 
+            transition: background-color 0.3s;
+        }
+        .about-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <a href="about2.html" class="about-button">About This Page</a>
+    
+    <div class="video-container">
+        <video src="11.mp4" autoplay loop muted playsinline></video>
+        <video src="22.mp4" autoplay loop muted playsinline></video>
+        <video src="33.mp4" autoplay loop muted playsinline></video>
+        <video src="44.mp4" autoplay loop muted playsinline></video>
+    </div>
+</body>
+</html>

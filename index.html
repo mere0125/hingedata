@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artistic Data Display with Videos</title>
+    <style>
+        body {
+            margin: 0;
+            background: linear-gradient(135deg, #0d0d0d, #1a1a1a); 
+            overflow: hidden;
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            position: relative;
+        }
+        .header {
+            position: absolute;
+            top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            pointer-events: auto; 
+        }
+        .header a {
+            color: rgba(255, 255, 255, 0.9); 
+            text-decoration: none; 
+        }
+        .letter {
+            position: absolute;
+            white-space: nowrap;
+            font-weight: bold;
+            opacity: 0.3;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.5); 
+            user-select: none; 
+        }
+        .video-container {
+            z-index: 1;
+            display: flex;
+            justify-content: space-around;
+            width: 80%;
+            margin-bottom: 20px;
+        }
+        video {
+            width: 300px;
+            height: auto;
+            margin: 0 20px;
+            border-radius: 15px;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.7);
+            animation: fadeIn 2s;
+            cursor: pointer;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="about.html">Introduction</a>
+    </div>
+    
+    <div class="video-container">
+        <a href="leftPage.html">
+            <video id="leftVideo" src="video1.mp4" autoplay loop muted playsinline></video>
+        </a>
+        <a href="rightPage.html">
+            <video id="rightVideo" src="video2.mp4" autoplay loop muted playsinline></video>
+        </a>
+    </div>
+
+    <script>
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const numberOfLetters = 300; 
+        const colors = ['#FF5733', '#33FF57', '#3357FF', '#F1C40F', '#8E44AD', '#E74C3C', '#3498DB', '#2ECC71'];
+        
+        let currentColor = '#FF5733';
+
+        function getRandomCharacter() {
+            return characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+
+        function getRandomSize() {
+            return Math.floor(Math.random() * 30) + 10;
+        }
+
+        function createRandomLetter() {
+            const letter = document.createElement('div');
+            letter.className = 'letter';
+            letter.textContent = getRandomCharacter();
+            letter.style.fontSize = getRandomSize() + 'px';
+            letter.style.color = currentColor;
+            letter.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+            const containerWidth = window.innerWidth;
+            const containerHeight = window.innerHeight;
+            letter.style.left = Math.random() * (containerWidth - 30) + 'px';
+            letter.style.top = Math.random() * (containerHeight - 30) + 'px';
+
+            document.body.appendChild(letter);
+
+            let xSpeed = (Math.random() * 4 + 2) * (Math.random() < 0.5 ? 1 : -1);
+            let ySpeed = (Math.random() * 4 + 2) * (Math.random() < 0.5 ? 1 : -1);
+
+            function animate() {
+                let rect = letter.getBoundingClientRect();
+
+                if (rect.left + rect.width >= containerWidth || rect.left <= 0) {
+                    xSpeed = -xSpeed;
+                }
+                if (rect.top + rect.height >= containerHeight || rect.top <= 0) {
+                    ySpeed = -ySpeed;
+                }
+
+                letter.style.left = rect.left + xSpeed + 'px';
+                letter.style.top = rect.top + ySpeed + 'px';
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+            return letter;
+        }
+
+        const letters = [];
+        for (let i = 0; i < numberOfLetters; i++) {
+            letters.push(createRandomLetter());
+        }
+
+        window.addEventListener('keydown', (event) => {
+            if (event.code === 'Space') {
+                currentColor = colors[Math.floor(Math.random() * colors.length)];
+                letters.forEach(letter => {
+                    letter.style.fontSize = getRandomSize() + 'px';
+                    letter.style.color = currentColor;
+                });
+            }
+        });
+    </script>
+</body>
+</html>
